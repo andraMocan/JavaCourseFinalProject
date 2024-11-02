@@ -2,25 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Update copy status</title>
+    <title>Update Copy Status</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://wallpapers.com/images/hd/elegant-minimalist-library-wtyr709e5bfxhmjq.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #343a40;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .btn-submit, .btn-reset {
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+        }
+
+        .btn-submit {
+            background-color: #007bff;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-reset {
+            background-color: #6c757d;
+        }
+
+        .btn-reset:hover {
+            background-color: #5a6268;
+        }
+
+        .buttons-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>Update copy status</h1>
-<form action="#" th:action="@{/copies/updateCopy}" th:object="${bookCopyUpdateDto}" method="post">
-    <input type="hidden" th:field="*{id}"/>
-    <input type="hidden" th:field="*{title}"/>
-    <select th:field="*{status}">
-        <option value="AVAILABLE">AVAILABLE</option>
-        <option value="BORROWED">BORROWED</option>
-    </select>
-    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
-</form>
 
-<button onclick="history.back()">Go Back</button>
-<br/>
-<button onclick="window.location.href='/books'">Home</button>
+<div class="container form-container">
+    <h1>Update Copy Status</h1>
+    <form th:action="@{/copies/updateCopy}" th:object="${bookCopyUpdateDto}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{title}"/>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status:</label>
+            <select id="status" class="form-select" th:field="*{status}">
+                <option value="AVAILABLE">AVAILABLE</option>
+                <option value="BORROWED">BORROWED</option>
+            </select>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-submit">Submit</button>
+            <button type="reset" class="btn btn-reset">Reset</button>
+        </div>
+    </form>
+
+    <div class="buttons-container mt-3">
+        <button onclick="history.back()" class="btn btn-secondary me-2">Go Back</button>
+        <button onclick="window.location.href='/books'" class="btn btn-primary">Home</button>
+    </div>
+</div>
 
 </body>
 </html>

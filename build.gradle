@@ -36,6 +36,9 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
 	testImplementation 'org.mockito:mockito-core:5.0.0'
 	testImplementation 'org.mockito:mockito-junit-jupiter:5.0.0'
+
+	implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity6', version: '3.1.2.RELEASE'
+
 }
 
 tasks.named('test') {

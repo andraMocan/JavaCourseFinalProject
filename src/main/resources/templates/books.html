@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -138,6 +138,22 @@
             transform: translateY(-2px);
         }
 
+    .btn-login{
+        background-color: #6c757d;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-login:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+    }
+
     .btn-logout {
         background-color: #6c757d;
         color: #fff;
@@ -169,21 +185,20 @@
 </head>
 
 <body>
-<div class="container">
-    <div class="logout-container">
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn btn-logout">Log Out</button>
-        </form>
-    </div>
-
+<div class="logout-container">
+    <a th:href="@{/login}" class="btn btn-login" sec:authorize="!isAuthenticated()">Log In</a>
+    <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+        <button type="submit" class="btn btn-logout">Log Out</button>
+    </form>
+</div>
     <div class="table-container">
         <h1>Book Catalog</h1>
         <div class="d-flex justify-content-center mb-4">
-            <a th:href="@{/books/create}" class="btn btn-create mx-2">Create New Book</a>
+            <a th:href="@{/books/create}" class="btn btn-create mx-2" sec:authorize="hasRole('ROLE_ADMIN')">Create New Book</a>
             <a th:href="@{/copies}" class="btn btn-copies mx-2">Book Copies Catalog</a>
             <a th:href="@{/statistics}" class="btn btn-statistics mx-2">Statistics</a>
-            <a th:href="@{/profile}" class="btn btn-profile mx-2">My Profile</a>
-            <a th:href="@{/users}" class="btn btn-users mx-2">Users</a>
+            <a th:href="@{/profile}" class="btn btn-profile mx-2" sec:authorize="hasRole('ROLE_USER')">My Profile</a>
+            <a th:href="@{/users}" class="btn btn-users mx-2" sec:authorize="hasRole('ROLE_ADMIN')">Users</a>
         </div>
         <table class="table table-hover table-striped table-bordered">
             <thead class="table-dark">
@@ -194,9 +209,9 @@
                 <th>Genre</th>
                 <th>Language</th>
                 <th>Status</th>
-                <th>Update</th>
-                <th>Delete</th>
-                <th>Add a copy</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Update</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Add a copy</th>
             </tr>
             </thead>
             <tbody>
@@ -207,9 +222,11 @@
                 <td th:text="${bookReturnDto.genre}"></td>
                 <td th:text="${bookReturnDto.language}"></td>
                 <td th:text="${bookReturnDto.status}" class="status"></td>
-                <td><a th:href="@{/books/update(id=${bookReturnDto.id})}" class="btn btn-update">Update</a></td>
-                <td><a th:href="@{/books/delete(id=${bookReturnDto.id})}" class="btn btn-delete">Delete</a></td>
-                <td><a th:href="@{/copies/create(id=${bookReturnDto.id})}" class="btn btn-addCopy">Add a Copy</a></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/books/update(id=${bookReturnDto.id})}" class="btn btn-update" >Update</a></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/books/delete(id=${bookReturnDto.id})}" class="btn btn-delete" >Delete</a></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/copies/create(id=${bookReturnDto.id})}" class="btn btn-addCopy" >Add a Copy</a></td>
+            </tr>
+            </tbody>
             </tr>
             </tbody>
         </table>
